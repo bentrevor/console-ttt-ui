@@ -1,0 +1,25 @@
+#!/usr/bin/env ruby
+
+$LOAD_PATH.unshift File.expand_path 'lib'
+
+
+require 'rubygems'
+require 'bundler'
+require 'game'
+require 'console_io'
+Bundler.setup
+require 'tic_tac_toe_ai'
+require 'pp'
+
+puts %q[
+Welcome to Console Tic-Tac-Toe!
+Please select the players for the game:
+
+]
+g = Game.new ConsoleIO, TicTacToeAi.create_board
+g.init_players
+system 'clear'
+sleep 1
+g.swap_players
+g.continue
+

@@ -24,7 +24,7 @@ class Game
   end
 
   def continue
-    if !self.current_player.nil?
+    if self.current_player
       io.show board, self
       swap_players
       prompt_player_again
@@ -57,11 +57,29 @@ class Game
     io.show_restart_message
     init_players
     swap_players
-    continue
+    continue if self.current_player
   end
 
   def swap_players
     self.current_player, self.other_player = self.other_player, self.current_player
+  end
+
+  def tie_game
+    io.show board, self
+    io.show_game_over_message board, self
+    restart
+  end
+
+  def x_wins
+    io.show board, self
+    io.show_game_over_message board, self
+    restart
+  end
+
+  def o_wins
+    io.show board, self
+    io.show_game_over_message board, self
+    restart
   end
 
   private
@@ -71,7 +89,9 @@ class Game
   end
 
   def prompt_player_again
-    position = self.current_player.get_next_move board
-    board.try_move current_player.char, position
+    if self.current_player
+      position = self.current_player.get_next_move board
+      board.try_move current_player.char, position
+    end
   end
 end

@@ -42,7 +42,7 @@ describe Game do
     end
   end
 
-  describe '#restart' do
+  describe 'new games' do
     before :each do
       UserPrompter.stub(:get_menu_choice).and_return 1
       Board.any_instance.stub :notify_observers
@@ -71,6 +71,13 @@ describe Game do
     it "should add itself as an observer to the new board" do
       Board.any_instance.should_receive :add_observer
       game.restart
+    end
+
+    it "shows the board and a message when x wins" do
+      fake_io.should_receive(:show).with game.board, game
+      fake_io.should_receive :show_game_over_message
+
+      game.x_wins
     end
   end
 
@@ -145,6 +152,7 @@ describe Game do
       game.continue
     end
   end
+
 
   def assert_menu_choice(choice, class_1, class_2)
     UserPrompter.should_receive(:get_menu_choice).and_return choice
